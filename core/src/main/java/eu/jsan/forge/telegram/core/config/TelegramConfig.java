@@ -5,10 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@SuppressWarnings("CanBeFinal")
 public class TelegramConfig {
 
-    public String token = "my-secrect-bot-token";
+    public String token = "my-secret-bot-token";
 
     public Broadcast broadcast = new Broadcast();
 

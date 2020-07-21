@@ -1,9 +1,11 @@
 modLoader="javafml"
 loaderVersion="[31,)"
+issueTrackerURL="https://github.com/jsaneu/telegram-control/issues"
 [[mods]]
 modId="telegram-control"
 version="${version}"
 displayName="Telegram Control"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/telegram-control"
 logoFile="logo.png"
 authors="JSaneu"
 description='''
