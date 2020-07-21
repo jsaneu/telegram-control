@@ -4,11 +4,15 @@ package eu.jsan.forge.telegram.impl;
 import eu.jsan.forge.telegram.core.AbstractBot;
 import eu.jsan.forge.telegram.core.AbstractMod;
 import eu.jsan.forge.telegram.core.model.Player;
+import eu.jsan.forge.telegram.core.support.Utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
@@ -27,9 +31,10 @@ public class Bot extends AbstractBot {
 
     @Override
     public void say(String nickname, String text) {
-//        minecraftServer.getPlayerList().sendMessage(new StringTextComponent(Utils.template(AbstractMod.config.i18n.ChatFromTelegram,
-//            Utils.toArray("${nickname}", Utils.MESSAGE),
-//            Utils.toArray(nickname, text))));
+        minecraftServer.getPlayerList()
+            .func_232641_a_(new StringTextComponent(Utils.template(AbstractMod.config.i18n.ChatFromTelegram,
+                Utils.toArray("${nickname}", Utils.MESSAGE),
+                Utils.toArray(nickname, text))), ChatType.CHAT, Util.field_240973_b_);
     }
 
     @Override
