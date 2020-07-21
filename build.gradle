@@ -1,0 +1,11 @@
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
+
+subprojects {
+    group 'eu.jsan.forge'
+    version = "${project.mod_version}"
+}

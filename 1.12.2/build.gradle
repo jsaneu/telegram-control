@@ -1,0 +1,74 @@
+buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+
+archivesBaseName = 'telegram-control-1.12.12'
+
+minecraft {
+    mappings channel: 'snapshot', version: '20171003-1.12'
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+        }
+        server {
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+        }
+    }
+}
+
+processResources {
+    inputs.property "version", project.mod_version
+    inputs.property "mcversion", "1.12.2"
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version': project.mod_version, 'mcversion': "1.12.2"
+    }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2854'
+    compile project(':core')
+}
+
+build {
+    dependencies {
+        shadow project(':core')
+    }
+}
+
+shadowJar {
+    zip64 true
+    project.configurations.shadow.setTransitive(true)
+    configurations = [project.configurations.shadow]
+    classifier '' // Replace the default JAR
+    relocate 'com.pengrad.telegrambot', 'eu.jsan.shaded.com.pengrad.telegrambot'
+    relocate 'okhttp3', 'eu.jsan.shaded.okhttp3'
+    relocate 'okio', 'eu.jsan.shaded.okio'
+    dependencies {
+        exclude(dependency('com.google.code.gson:gson:.*'))
+        exclude(dependency('org.apache.commons:commons-lang3:.*'))
+        exclude(dependency('org.apache.logging.log4j:log4j-api:.*'))
+    }
+}
+
+reobf {
+    shadowJar {} // Reobfuscate the shadowed JAR
+}

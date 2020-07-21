@@ -1,0 +1,11 @@
+modLoader="javafml"
+loaderVersion="[31,)"
+[[mods]]
+modId="telegram-control"
+version="${version}"
+displayName="Telegram Control"
+logoFile="logo.png"
+authors="JSaneu"
+description='''
+Control Minecraft from Telegram
+'''

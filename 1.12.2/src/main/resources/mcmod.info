@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "telegram-control",
+    "name": "Telegram Control",
+    "description": "Control Minecraft from Telegram",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [
+      "JSaneu"
+    ],
+    "credits": "",
+    "logoFile": "assets/telegram-control/logo.png",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
