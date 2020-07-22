@@ -1,0 +1,85 @@
+{
+  "token": "my-bot-token",
+  "chatIds": [
+    "my-chat-id"
+  ],
+  "maxButtonColumns": 3,
+  "skippedSenderNames": [
+    "Server",
+    "Telegram"
+  ],
+  "skippedCommands": [],
+  "obfuscatedCommands": [
+    "login",
+    "register"
+  ],
+  "welcomeMessage": false,
+  "actions": {
+    "❤ Heal": "effect give ${player} minecraft:instant_health",
+    "💥 Damage": "effect give ${player} minecraft:instant_damage",
+    "🛸 Levitation": "effect give ${player} minecraft:levitation 10",
+    "🤢 Poison": "effect give ${player} minecraft:poison 10",
+    "⚡ Lightning": "execute positioned as ${player} run summon minecraft:lightning_bolt",
+    "🙈 Blindness": "effect give ${player} minecraft:blindness 10",
+    "☁ Go up": "tp ${player} ~ ~150 ~",
+    "😵 Nausea": "effect give ${player} minecraft:nausea 10",
+    "🩲 Clear inv.": "clear ${player}",
+    "☠ Kill": "kill ${player}",
+    "💤 Jail": "spawnpoint ${player} -1022 129 55;tp ${player} -1022 129 55",
+    "🦶 Kick": "kick ${player}",
+    "🔒 Ban": "ban ${player}"
+  },
+  "broadcast": {
+    "playerLogged": true,
+    "playerLoggedOut": true,
+    "playerChangedDimension": true,
+    "playerAdvancement": true,
+    "playerMessage": true,
+    "playerWhisper": true,
+    "playerCommand": true,
+    "playerDeathPvp": true,
+    "playerDeathPve": true,
+    "serverStarted": true,
+    "serverStopped": true,
+    "commandResponde": true
+  },
+  "disableNotification": {
+    "playerLogged": true,
+    "playerLoggedOut": true,
+    "playerChangedDimension": true,
+    "playerAdvancement": true,
+    "playerMessage": true,
+    "playerWhisper": true,
+    "playerCommand": true,
+    "playerDeathPvp": true,
+    "playerDeathPve": true,
+    "serverStarted": true,
+    "serverStopped": true,
+    "commandResponde": true
+  },
+  "i18n": {
+    "welcomeMessage": "Welcome §e${player}§r!",
+    "playerDeath": "☠ ${message}",
+    "serverStarted": "🟩 *Server* Up",
+    "serverStopped": "🟥 *Server* Down",
+    "playerLogged": "🟢 *${player}*",
+    "playerLoggedOut": "🔴 *${player}*",
+    "playerOffline": "*${player}* is offline",
+    "playerChangedDimension": "✈ *${player}* ${dimension}",
+    "playerAdvancement": "🏆 *${player}* ${advancement}",
+    "playerWhisper": "💬 *${from}* to *${to}*: ${message}",
+    "playerCommand": "▶ *${player}* /${command} ${parameters}",
+    "chatFromGame": "🔈 *${player}*: ${message}",
+    "ChatFromTelegram": "§6\u003c${nickname}\u003e§r ${message}",
+    "chatNotFound": "Chat \u0027${chatId}\u0027 is not registered",
+    "commandNotFound": "Command not found: ${command}",
+    "cancelButton": "❌ Cancel",
+    "noPlayersOnline": "No players online",
+    "choosePlayerTitle": "*${playersCount}* Players online",
+    "chooseActionTitle": "*${player}*. Choose action 😈",
+    "playerListTitle": "*${playersCount}* Players online:",
+    "playerListRow": "• *${player}* (${currentHealth}/${maxHealth}) lvl: ${level}",
+    "obfuscatedReplacement": "\u003chidden\u003e",
+    "telegramCallback": "[${player}] - ${action}"
+  }
+}
