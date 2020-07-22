@@ -35,7 +35,7 @@ Control Minecraft from Telegram. First try with Forge.
 * [Config examples](https://github.com/jsaneu/telegram-control/tree/master/assets/config-examples)
 
 ## Actions examples
-###1.12.2
+### 1.12.2
 ```json
 "actions": {
     "❤ Heal": "effect ${player} minecraft:instant_health",
