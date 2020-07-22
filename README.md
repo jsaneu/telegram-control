@@ -23,7 +23,7 @@ Control Minecraft from Telegram. First try with Forge.
 
 ## Commands
 * `/players`: Show the player list.
-* `/cmd your-command`: Execute command.
+* `/cmd <command>`: Execute command.
 * `/actions`: Show the configurable actions.
 
 ## Installation
