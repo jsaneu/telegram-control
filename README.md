@@ -32,7 +32,6 @@ Control Minecraft from Telegram. First try with Forge.
 * Update the file `config/telegram-control/config.json`
 * Set your token in `token` property
 * Set your chat id in `chatIds` property
-* [Config examples](https://github.com/jsaneu/telegram-control/tree/master/assets/config-examples)
 
 ## Actions examples
 ### 1.12.2
@@ -72,5 +71,7 @@ Control Minecraft from Telegram. First try with Forge.
   }
 ```
 ## Misc
+* [Config examples](https://github.com/jsaneu/telegram-control/tree/master/assets/config-examples)
 * [Screenshots](https://github.com/jsaneu/telegram-control/tree/master/assets/images/screenshots)
+* To change the language on server-side, you can use the [Server Localization](https://www.curseforge.com/minecraft/mc-mods/server-localization) mod. [Source](https://github.com/glitchless/MinecraftServerLocalization)
 
