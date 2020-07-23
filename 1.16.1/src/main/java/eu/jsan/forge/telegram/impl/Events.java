@@ -1,6 +1,5 @@
 package eu.jsan.forge.telegram.impl;
 
-import eu.jsan.forge.telegram.core.AbstractBot;
 import eu.jsan.forge.telegram.core.AbstractMod;
 import eu.jsan.forge.telegram.core.support.AbstractEvents;
 import eu.jsan.forge.telegram.core.support.Utils;
@@ -20,10 +19,6 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 @EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Events extends AbstractEvents {
-
-    protected Events(AbstractBot bot) {
-        super(bot);
-    }
 
     @SubscribeEvent
     public void onChatMessage(ServerChatEvent event) {

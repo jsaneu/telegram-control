@@ -147,5 +147,15 @@ public class TelegramConfig {
 
         public String telegramCallback = "[${player}] - ${action}";
 
+        public String status = "*${motd}*\n"
+            + "\n\u2022 Version: ${version}"
+            + "\n\u2022 Game type: ${mode}"
+            + "\n\u2022 Difficulty: ${difficulty}"
+            + "\n\u2022 Players: ${playersOnline}/${maxPlayers}"
+            + "\n\u2022 Start time: ${startTime}"
+            + "\n\u2022 JVM Free memory: ${freeMemory}"
+            + "\n\u2022 JVM Max memory: ${maxMemory}"
+            + "\n\u2022 JVM Total memory: ${totalMemory}";
+
     }
 }

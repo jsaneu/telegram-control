@@ -14,14 +14,15 @@ Control Minecraft from Telegram. First try with Forge.
 * Server stop
 * Player login
 * Player logout
-* Player Death
-* Player Advancement
-* Player public chat
-* Player Whisper
-* Players commands
-* Player change dimension
+* Player death
+* Player advancement
+* Player chat
+* Player whisper
+* Player commands
+* Player dimension change
 
 ## Commands
+* `/status`: Show the server status (name, version, game type, difficulty, players, start time, JVM free memory, JVM max memory, JVM total memory).
 * `/players`: Show the player list.
 * `/cmd <command>`: Execute command.
 * `/actions`: Show the configurable actions.

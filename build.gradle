@@ -1,3 +1,7 @@
+buildscript {
+    ext.curseforge_apiKey = System.getenv('curseforge_apiKey')
+}
+
 allprojects {
     repositories {
         jcenter()

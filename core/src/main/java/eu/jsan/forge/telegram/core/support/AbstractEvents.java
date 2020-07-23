@@ -1,17 +1,12 @@
 package eu.jsan.forge.telegram.core.support;
 
-import eu.jsan.forge.telegram.core.AbstractBot;
+import static eu.jsan.forge.telegram.core.AbstractMod.bot;
+
 import eu.jsan.forge.telegram.core.AbstractMod;
 import java.util.Arrays;
 import org.apache.commons.lang3.StringUtils;
 
 public abstract class AbstractEvents {
-
-    private final AbstractBot bot;
-
-    protected AbstractEvents(AbstractBot bot) {
-        this.bot = bot;
-    }
 
     protected void broadcastWhisper(String from, String to, String text) {
         if (AbstractMod.config.broadcast.playerWhisper && Arrays.stream(AbstractMod.config.skippedSenderNames)

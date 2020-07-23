@@ -49,6 +49,36 @@ public class Bot extends AbstractBot {
     }
 
     @Override
+    protected String getMotd() {
+        return Utils.strip(minecraftServer.getMOTD());
+    }
+
+    @Override
+    protected String getVersion() {
+        return minecraftServer.getMinecraftVersion();
+    }
+
+    @Override
+    protected String getGameType() {
+        return minecraftServer.getGameType().getName();
+    }
+
+    @Override
+    protected String getDifficulty() {
+        return minecraftServer.getDifficulty().name();
+    }
+
+    @Override
+    protected String getCurrentPlayers() {
+        return String.valueOf(minecraftServer.getCurrentPlayerCount());
+    }
+
+    @Override
+    protected String getMaxPlayers() {
+        return String.valueOf(minecraftServer.getMaxPlayers());
+    }
+
+    @Override
     protected void executeMinecraftCommand(String command, Object chatId) {
         sender.resetLog();
         minecraftServer.getCommandManager().executeCommand(sender, command);

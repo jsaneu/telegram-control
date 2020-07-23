@@ -1,8 +1,6 @@
 package eu.jsan.forge.telegram.impl;
 
-import eu.jsan.forge.telegram.core.AbstractBot;
 import eu.jsan.forge.telegram.core.AbstractMod;
-import eu.jsan.forge.telegram.core.config.TelegramConfig;
 import eu.jsan.forge.telegram.core.support.AbstractEvents;
 import eu.jsan.forge.telegram.core.support.Utils;
 import java.util.Arrays;
@@ -21,10 +19,6 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import org.apache.commons.lang3.StringUtils;
 
 public class Events extends AbstractEvents {
-
-    protected Events(AbstractBot bot) {
-        super(bot);
-    }
 
     @SubscribeEvent
     public void onCommandEvent(CommandEvent event) {

@@ -1,20 +1,26 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
         jcenter()
         mavenCentral()
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
         classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'com.matthewprenger.cursegradle'
 
 
-archivesBaseName = 'telegram-control-1.12.12'
+archivesBaseName = 'telegram-control-1.12.2'
+version = "1.0.2"
 
 minecraft {
     mappings channel: 'snapshot', version: '20171003-1.12'
@@ -32,11 +38,11 @@ minecraft {
 }
 
 processResources {
-    inputs.property "version", project.mod_version
+    inputs.property "version", project.version
     inputs.property "mcversion", "1.12.2"
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-        expand 'version': project.mod_version, 'mcversion': "1.12.2"
+        expand 'version': project.version, 'mcversion': "1.12.2"
     }
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
@@ -62,10 +68,9 @@ shadowJar {
     relocate 'com.pengrad.telegrambot', 'eu.jsan.shaded.com.pengrad.telegrambot'
     relocate 'okhttp3', 'eu.jsan.shaded.okhttp3'
     relocate 'okio', 'eu.jsan.shaded.okio'
+    exclude 'META-INF/**'
     dependencies {
         exclude(dependency('com.google.code.gson:gson:.*'))
-        exclude(dependency('org.apache.commons:commons-lang3:.*'))
-        exclude(dependency('org.apache.logging.log4j:log4j-api:.*'))
     }
 }
 

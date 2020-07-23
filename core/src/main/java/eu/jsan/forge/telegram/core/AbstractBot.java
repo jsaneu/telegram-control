@@ -27,6 +27,8 @@ public abstract class AbstractBot {
 
     private static final char SEPARATOR_CHAR = ';';
 
+    private static final String COMMAND_STATUS = "/status";
+
     private static final String COMMAND_PLAYERS = "/players";
 
     private static final String COMMAND_ACTIONS = "/actions";
@@ -78,10 +80,13 @@ public abstract class AbstractBot {
     protected abstract List<Player> getPlayers();
 
     private void manageCommands(String text, Object fromId) {
-        String command = org.apache.commons.lang3.StringUtils
-            .substringBefore(text, org.apache.commons.lang3.StringUtils.SPACE);
+        String command = StringUtils.substringBefore(text, StringUtils.SPACE);
         switch (command) {
             case COMMAND_START:
+            case COMMAND_STATUS:
+                postToTelegram(Messages.getStatus(fromId, getMotd(), getVersion(),
+                    getGameType(), getDifficulty(), getCurrentPlayers(), getMaxPlayers()));
+                break;
             case COMMAND_PLAYERS:
                 postToTelegram(Messages.listPlayers(fromId, getPlayers()));
                 break;
@@ -89,15 +94,20 @@ public abstract class AbstractBot {
                 postToTelegram(Messages.getPlayers(fromId, getPlayernames()));
                 break;
             case COMMAND_CMD:
-                executeMinecraftCommand(
-                    org.apache.commons.lang3.StringUtils
-                        .substringAfter(text, org.apache.commons.lang3.StringUtils.SPACE), fromId);
+                executeMinecraftCommand(StringUtils.substringAfter(text, StringUtils.SPACE), fromId);
                 break;
             default:
                 toTelegram(fromId, Utils.template(AbstractMod.config.i18n.commandNotFound, "${command}", command),
                     false);
         }
     }
+
+    protected abstract String getMotd();
+    protected abstract String getVersion();
+    protected abstract String getGameType();
+    protected abstract String getDifficulty();
+    protected abstract String getCurrentPlayers();
+    protected abstract String getMaxPlayers();
 
     public void toTelegram(Object chatId, String message, boolean disableNotification) {
         postToTelegram(new SendMessage(chatId, Utils.strip(message))
