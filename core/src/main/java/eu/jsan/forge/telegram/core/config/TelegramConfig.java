@@ -153,6 +153,7 @@ public class TelegramConfig {
             + "\n\u2022 Difficulty: ${difficulty}"
             + "\n\u2022 Players: ${playersOnline}/${maxPlayers}"
             + "\n\u2022 Start time: ${startTime}"
+            + "\n\u2022 Up time: ${upTime}"
             + "\n\u2022 JVM Free memory: ${freeMemory}"
             + "\n\u2022 JVM Max memory: ${maxMemory}"
             + "\n\u2022 JVM Total memory: ${totalMemory}";

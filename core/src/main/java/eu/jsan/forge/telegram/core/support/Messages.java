@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 
 public class Messages {
 
@@ -46,15 +47,16 @@ public class Messages {
 
         String startTime = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(
             ManagementFactory.getRuntimeMXBean().getStartTime()));
-
+        String uptime = DurationFormatUtils
+            .formatDurationWords(ManagementFactory.getRuntimeMXBean().getUptime(), true, true);
         String freeMemory = Utils.humanReadableByteCountBin(Runtime.getRuntime().freeMemory());
         String maxMemory = Utils.humanReadableByteCountBin(Runtime.getRuntime().maxMemory());
         String totalMemory = Utils.humanReadableByteCountBin(Runtime.getRuntime().totalMemory());
 
         String text = Utils.template(AbstractMod.config.i18n.status,
             Utils.toArray("${motd}", "${version}", "${mode}", "${difficulty}", "${playersOnline}",
-                "${maxPlayers}", "${startTime}", "${freeMemory}", "${maxMemory}", "${totalMemory}"),
-            Utils.toArray(motd, version, mode, difficulty, playersOnline, maxPlayers, startTime, freeMemory,
+                "${maxPlayers}", "${startTime}", "${upTime}",  "${freeMemory}", "${maxMemory}", "${totalMemory}"),
+            Utils.toArray(motd, version, mode, difficulty, playersOnline, maxPlayers, startTime, uptime, freeMemory,
                 maxMemory, totalMemory));
         return new SendMessage(chatId, text).parseMode(ParseMode.Markdown).disableNotification(true);
     }
