@@ -26,6 +26,7 @@ Control Minecraft from Telegram. First try with Forge.
 * `/players`: Show the player list.
 * `/cmd <command>`: Execute command.
 * `/actions`: Show the configurable actions.
+* `/reload`: Reload configuration from `config/telegram-control/config.json`.
 
 ## Installation
 * Create a telegram bot in Telegram with [@BotFather](https://telegram.me/BotFather "@BotFather")

@@ -19,7 +19,8 @@ public class ControlMod extends AbstractMod {
 
     @SubscribeEvent
     public void serverStarted(FMLServerStartedEvent event) throws IOException {
-        updateConfiguration(FMLPaths.CONFIGDIR.get().toString());
+        configDir = FMLPaths.CONFIGDIR.get().toString();
+        updateConfiguration();
         bot = new Bot(AbstractMod.config.token, LogManager.getLogger());
         MinecraftForge.EVENT_BUS.register(new Events());
         broadcastServerStarted();

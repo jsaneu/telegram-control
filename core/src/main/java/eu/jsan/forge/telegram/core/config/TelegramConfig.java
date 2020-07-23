@@ -157,5 +157,9 @@ public class TelegramConfig {
             + "\n\u2022 JVM Max memory: ${maxMemory}"
             + "\n\u2022 JVM Total memory: ${totalMemory}";
 
+        public String reloadConfigOk = "\u2705 *telegram-control* configuration reloaded";
+
+        public String reloadConfigError = "\u26A0 Error reloading *telegram-control* configuration: `${error}`";
+
     }
 }

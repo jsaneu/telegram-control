@@ -10,12 +10,13 @@ import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import org.apache.logging.log4j.LogManager;
 
-@Mod(modid = ControlMod.MODID, name = ControlMod.NAME, version = "1.0.2", acceptableRemoteVersions = "*")
+@Mod(modid = ControlMod.MODID, name = ControlMod.NAME, version = "1.0.3", acceptableRemoteVersions = "*")
 public class ControlMod extends AbstractMod {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) throws IOException {
-        updateConfiguration(event.getModConfigurationDirectory().getAbsolutePath());
+        configDir = event.getModConfigurationDirectory().getAbsolutePath();
+        updateConfiguration();
     }
 
     @EventHandler

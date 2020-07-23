@@ -20,7 +20,7 @@ apply plugin: 'com.matthewprenger.cursegradle'
 
 
 archivesBaseName = 'telegram-control-1.15.2'
-version = "1.0.2"
+version = "1.0.3"
 
 minecraft {
     // The mappings can be changed at any time, and must be in the following format.

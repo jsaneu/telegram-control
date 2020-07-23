@@ -37,6 +37,8 @@ public abstract class AbstractBot {
 
     private static final String COMMAND_CMD = "/cmd";
 
+    private static final String RELOAD_CMD = "/reload";
+
     private static final String SLASH = "/";
 
     private final TelegramBot telegramBot;
@@ -79,25 +81,34 @@ public abstract class AbstractBot {
 
     protected abstract List<Player> getPlayers();
 
-    private void manageCommands(String text, Object fromId) {
+    private void manageCommands(String text, Object chatId) {
         String command = StringUtils.substringBefore(text, StringUtils.SPACE);
         switch (command) {
             case COMMAND_START:
             case COMMAND_STATUS:
-                postToTelegram(Messages.getStatus(fromId, getMotd(), getVersion(),
+                postToTelegram(Messages.getStatus(chatId, getMotd(), getVersion(),
                     getGameType(), getDifficulty(), getCurrentPlayers(), getMaxPlayers()));
                 break;
             case COMMAND_PLAYERS:
-                postToTelegram(Messages.listPlayers(fromId, getPlayers()));
+                postToTelegram(Messages.listPlayers(chatId, getPlayers()));
                 break;
             case COMMAND_ACTIONS:
-                postToTelegram(Messages.getPlayers(fromId, getPlayernames()));
+                postToTelegram(Messages.getPlayers(chatId, getPlayernames()));
                 break;
             case COMMAND_CMD:
-                executeMinecraftCommand(StringUtils.substringAfter(text, StringUtils.SPACE), fromId);
+                executeMinecraftCommand(StringUtils.substringAfter(text, StringUtils.SPACE), chatId);
+                break;
+            case RELOAD_CMD:
+                try {
+                    AbstractMod.updateConfiguration();
+                    toTelegram(chatId, AbstractMod.config.i18n.reloadConfigOk, true);
+                } catch (IOException e) {
+                    logger.error("Error reloading config", e);
+                    toTelegram(chatId, Utils.template(AbstractMod.config.i18n.reloadConfigError, "${error}", e.getMessage()), false);
+                }
                 break;
             default:
-                toTelegram(fromId, Utils.template(AbstractMod.config.i18n.commandNotFound, "${command}", command),
+                toTelegram(chatId, Utils.template(AbstractMod.config.i18n.commandNotFound, "${command}", command),
                     false);
         }
     }

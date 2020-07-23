@@ -18,7 +18,9 @@ public abstract class AbstractMod {
 
     public static AbstractBot bot;
 
-    protected void updateConfiguration(String configDir) throws IOException {
+    protected static String configDir;
+
+    protected static void updateConfiguration() throws IOException {
         File file = new File(configDir + "/" + MODID + "/config.json");
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
