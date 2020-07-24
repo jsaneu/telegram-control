@@ -10,6 +10,7 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
@@ -60,12 +61,12 @@ public class Bot extends AbstractBot {
 
     @Override
     protected String getGameType() {
-        return minecraftServer.getGameType().getName();
+        return new TextComponentTranslation("gameMode."+minecraftServer.getGameType().getName()).getUnformattedComponentText();
     }
 
     @Override
     protected String getDifficulty() {
-        return minecraftServer.getDifficulty().name();
+        return new TextComponentTranslation(minecraftServer.getDifficulty().getDifficultyResourceKey()).getUnformattedComponentText();
     }
 
     @Override

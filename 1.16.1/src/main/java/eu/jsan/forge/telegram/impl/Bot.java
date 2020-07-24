@@ -76,12 +76,12 @@ public class Bot extends AbstractBot {
 
     @Override
     protected String getGameType() {
-        return minecraftServer.getGameType().getName();
+        return minecraftServer.getGameType().getDisplayName().getUnformattedComponentText();
     }
 
     @Override
-    protected String getDifficulty() { //TODO: Retrieve Difficulty
-        return "*Not implemented*";
+    protected String getDifficulty() {
+        return minecraftServer.func_240793_aU_().getDifficulty().getDisplayName().getUnformattedComponentText();
     }
 
     @Override
