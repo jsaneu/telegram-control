@@ -3,11 +3,7 @@
 Control Minecraft from Telegram. First try with Forge.
 
 ## Minecraft versions
-- [x] 1.16.1
-- [x] 1.15.2
-- [x] 1.12.2
-- [ ] 1.14.4
-- [ ] 1.13.2
+1.16.1, 1.15.2, 1.12.2
 
 ## Broadcast
 * Server start
