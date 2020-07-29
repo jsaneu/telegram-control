@@ -20,7 +20,7 @@ apply plugin: 'com.matthewprenger.cursegradle'
 
 
 archivesBaseName = 'telegram-control-1.12.2'
-version = "1.0.5"
+version = "1.0.6"
 
 minecraft {
     mappings channel: 'snapshot', version: '20171003-1.12'
