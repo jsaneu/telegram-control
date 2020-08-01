@@ -13,6 +13,9 @@
     "login",
     "register"
   ],
+  "mentions": [
+    "@admin"
+  ],
   "welcomeMessage": false,
   "actions": {
     "❤ Heal": "effect give ${player} minecraft:instant_health",
@@ -44,6 +47,7 @@
     "commandResponde": true
   },
   "disableNotification": {
+    "mentions": false,
     "playerLogged": true,
     "playerLoggedOut": true,
     "playerChangedDimension": true,
