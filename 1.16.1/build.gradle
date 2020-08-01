@@ -20,7 +20,7 @@ apply plugin: 'com.matthewprenger.cursegradle'
 
 
 archivesBaseName = 'telegram-control-1.16.1'
-version = "1.0.6"
+version = "1.0.7"
 
 minecraft {
     mappings channel: 'snapshot', version: '20200514-1.16'
@@ -90,7 +90,7 @@ processResources {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.1-32.0.93'
+    minecraft 'net.minecraftforge:forge:1.16.1-32.0.98'
     compile project(':core')
 }
 

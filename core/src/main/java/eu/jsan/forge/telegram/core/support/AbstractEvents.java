@@ -1,87 +1,90 @@
 package eu.jsan.forge.telegram.core.support;
 
 import static eu.jsan.forge.telegram.core.AbstractMod.bot;
+import static eu.jsan.forge.telegram.core.AbstractMod.config;
+import static eu.jsan.forge.telegram.core.support.Utils.MESSAGE;
+import static eu.jsan.forge.telegram.core.support.Utils.PLAYER;
+import static eu.jsan.forge.telegram.core.support.Utils.obfuscateCommandParams;
+import static eu.jsan.forge.telegram.core.support.Utils.template;
+import static eu.jsan.forge.telegram.core.support.Utils.toArray;
 
-import eu.jsan.forge.telegram.core.AbstractMod;
 import java.util.Arrays;
 import org.apache.commons.lang3.StringUtils;
 
 public abstract class AbstractEvents {
 
     protected void broadcastWhisper(String from, String to, String text) {
-        if (AbstractMod.config.broadcast.playerWhisper && Arrays.stream(AbstractMod.config.skippedSenderNames)
+        if (config.broadcast.playerWhisper && Arrays.stream(config.skippedSenderNames)
             .noneMatch(s -> s.equals(from))) {
-            bot.broadcast(Utils.template(AbstractMod.config.i18n.playerWhisper,
-                Utils.toArray("${from}", "${to}", Utils.MESSAGE),
-                Utils.toArray(from, to, text)),
-                AbstractMod.config.disableNotification.playerWhisper);
+            bot.broadcast(template(config.i18n.playerWhisper,
+                toArray("${from}", "${to}", MESSAGE), toArray(from, to, text)),
+                config.disableNotification.playerWhisper);
         }
     }
 
     protected void broadcastCommand(String from, String commandName, String[] parameters) {
-        if (AbstractMod.config.broadcast.playerCommand
-            && Arrays.stream(AbstractMod.config.skippedCommands).noneMatch(s -> s.equals(commandName))) {
-            bot.broadcast(Utils.template(AbstractMod.config.i18n.playerCommand,
-                Utils.toArray(Utils.PLAYER, "${command}", "${parameters}"),
-                Utils.toArray(from, commandName, Utils.obfuscateCommandParams(commandName, parameters))),
-                AbstractMod.config.disableNotification.playerCommand);
+        if (config.broadcast.playerCommand
+            && Arrays.stream(config.skippedCommands).noneMatch(s -> s.equals(commandName))) {
+            bot.broadcast(template(config.i18n.playerCommand,
+                toArray(PLAYER, "${command}", "${parameters}"),
+                toArray(from, commandName, obfuscateCommandParams(commandName, parameters))),
+                config.disableNotification.playerCommand);
         }
     }
 
     protected void broadcastChat(String from, String text) {
-        if (AbstractMod.config.broadcast.playerMessage) {
-            if (StringUtils.isNotBlank(text)) {
-                bot.broadcast(Utils.template(AbstractMod.config.i18n.chatFromGame,
-                    Utils.toArray(Utils.PLAYER, Utils.MESSAGE),
-                    Utils.toArray(from, text)),
-                    AbstractMod.config.disableNotification.playerMessage);
+        if (StringUtils.isNotBlank(text)) {
+            boolean mention = Arrays.stream(config.mentions).anyMatch(s -> StringUtils.containsIgnoreCase(text, s));
+            if (mention || config.broadcast.playerMessage) {
+                boolean disableNotification = mention ? config.disableNotification.mentions
+                    : config.disableNotification.playerMessage;
+                bot.broadcast(template(config.i18n.chatFromGame,
+                    toArray(PLAYER, MESSAGE), toArray(from, text)), disableNotification);
             }
         }
     }
 
     protected void broadcastDeath(String playername, String text, boolean pvp) {
-        final String message = Utils.template(AbstractMod.config.i18n.playerDeath,
-            Utils.MESSAGE, text.replaceFirst(playername, String.format("*%s*", playername)));
+        final String message = template(config.i18n.playerDeath,
+            MESSAGE, text.replaceFirst(playername, String.format("*%s*", playername)));
         if (pvp) {
-            if (AbstractMod.config.broadcast.playerDeathPvp) {
-                bot.broadcast(message, AbstractMod.config.disableNotification.playerDeathPvp);
+            if (config.broadcast.playerDeathPvp) {
+                bot.broadcast(message, config.disableNotification.playerDeathPvp);
             }
-        } else if (AbstractMod.config.broadcast.playerDeathPve) {
-            bot.broadcast(message, AbstractMod.config.disableNotification.playerDeathPve);
+        } else if (config.broadcast.playerDeathPve) {
+            bot.broadcast(message, config.disableNotification.playerDeathPve);
         }
     }
 
     protected void broadcastLogin(String playername) {
-        if (AbstractMod.config.broadcast.playerLogged) {
-            bot.broadcast(Utils.template(AbstractMod.config.i18n.playerLogged, Utils.PLAYER, playername),
-                AbstractMod.config.disableNotification.playerLogged);
+        if (config.broadcast.playerLogged) {
+            bot.broadcast(template(config.i18n.playerLogged, PLAYER, playername),
+                config.disableNotification.playerLogged);
         }
     }
 
     protected void broadcastLogout(String playername) {
-        if (AbstractMod.config.broadcast.playerLoggedOut) {
-            bot.broadcast(Utils.template(AbstractMod.config.i18n.playerLoggedOut, Utils.PLAYER, playername),
-                AbstractMod.config.disableNotification.playerLoggedOut);
+        if (config.broadcast.playerLoggedOut) {
+            bot.broadcast(template(config.i18n.playerLoggedOut, PLAYER, playername),
+                config.disableNotification.playerLoggedOut);
         }
     }
 
     protected void broadcastDimension(String playername, String dimension) {
-        if (AbstractMod.config.broadcast.playerChangedDimension) {
-            bot.broadcast(Utils.template(AbstractMod.config.i18n.playerChangedDimension,
-                Utils.toArray(Utils.PLAYER, "${dimension}"), Utils.toArray(playername, dimension)),
-                AbstractMod.config.disableNotification.playerChangedDimension);
+        if (config.broadcast.playerChangedDimension) {
+            bot.broadcast(template(config.i18n.playerChangedDimension,
+                toArray(PLAYER, "${dimension}"), toArray(playername, dimension)),
+                config.disableNotification.playerChangedDimension);
         }
     }
 
     protected void boardcastAdvancement(String playername, String advancement) {
-        if (AbstractMod.config.broadcast.playerAdvancement && StringUtils.isNotBlank(advancement) && !advancement
+        if (config.broadcast.playerAdvancement && StringUtils.isNotBlank(advancement) && !advancement
             .contains("recipes")) {
-            bot.broadcast(Utils.template(AbstractMod.config.i18n.playerAdvancement,
-                Utils.toArray(Utils.PLAYER, "${advancement}"),
-                Utils.toArray(playername, advancement)),
-                AbstractMod.config.disableNotification.playerAdvancement);
+            bot.broadcast(template(config.i18n.playerAdvancement,
+                toArray(PLAYER, "${advancement}"), toArray(playername, advancement)),
+                config.disableNotification.playerAdvancement);
         }
     }
-
 
 }

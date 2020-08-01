@@ -39,6 +39,8 @@ public class TelegramConfig {
 
     public String[] skippedCommands = new String[]{};
 
+    public String[] mentions = new String[]{};
+
     public String[] obfuscatedCommands = new String[]{"login", "register"};
 
     public boolean welcomeMessage = false;
@@ -71,6 +73,8 @@ public class TelegramConfig {
     }
 
     public static class DisableNotification {
+
+        public boolean mentions = false;
 
         public boolean playerLogged = true;
 
