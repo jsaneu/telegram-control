@@ -14,7 +14,6 @@ import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 
 public class Bot extends AbstractBot {
@@ -53,10 +52,7 @@ public class Bot extends AbstractBot {
     protected void executeMinecraftCommand(String command, Object chatId) {
         source.resetLog();
         minecraftServer.getCommandManager().handleCommand(source.getCommandSource(), command);
-        if (AbstractMod.config.broadcast.commandResponde) {
-            toTelegram(chatId, String.format("`%s`", StringUtils.removeEnd(source.getLogContents(), "\n")),
-                AbstractMod.config.disableNotification.commandResponde);
-        }
+        broadcastCommandResponde(chatId, source.getLogContents());
     }
 
     @Override

@@ -72,7 +72,7 @@
     "playerChangedDimension": "✈ *${player}* ${dimension}",
     "playerAdvancement": "🏆 *${player}* ${advancement}",
     "playerWhisper": "💬 *${from}* to *${to}*: ${message}",
-    "playerCommand": "▶ *${player}* /${command} ${parameters}",
+    "playerCommand": "▶ *${player}* ${command} ${parameters}",
     "chatFromGame": "🔈 *${player}*: ${message}",
     "ChatFromTelegram": "§6\u003c${nickname}\u003e§r ${message}",
     "chatNotFound": "Chat \u0027${chatId}\u0027 is not registered",

@@ -1,5 +1,13 @@
 package eu.jsan.forge.telegram.core;
 
+import static eu.jsan.forge.telegram.core.AbstractMod.config;
+import static eu.jsan.forge.telegram.core.AbstractMod.updateConfiguration;
+import static eu.jsan.forge.telegram.core.support.Utils.PLAYER;
+import static eu.jsan.forge.telegram.core.support.Utils.escapeMarkdown;
+import static eu.jsan.forge.telegram.core.support.Utils.strip;
+import static eu.jsan.forge.telegram.core.support.Utils.template;
+import static eu.jsan.forge.telegram.core.support.Utils.toArray;
+
 import com.pengrad.telegrambot.Callback;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
@@ -16,7 +24,6 @@ import com.pengrad.telegrambot.response.BaseResponse;
 import eu.jsan.forge.telegram.core.model.BotResponse;
 import eu.jsan.forge.telegram.core.model.Player;
 import eu.jsan.forge.telegram.core.support.Messages;
-import eu.jsan.forge.telegram.core.support.Utils;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -59,14 +66,14 @@ public abstract class AbstractBot {
                 String text = message.text();
                 if (StringUtils.isNotBlank(text)) {
                     String fromId = message.from().id().toString();
-                    if (Arrays.asList(AbstractMod.config.chatIds).contains(fromId)) {
+                    if (Arrays.asList(config.chatIds).contains(fromId)) {
                         if (text.startsWith(SLASH)) {
                             manageCommands(text, fromId);
                         } else {
                             say(message.from().username(), message.text());
                         }
                     } else {
-                        toTelegram(fromId, Utils.template(AbstractMod.config.i18n.chatNotFound, "${chatId}", fromId),
+                        toTelegram(fromId, template(config.i18n.chatNotFound, "${chatId}", fromId),
                             true);
                     }
                 }
@@ -100,15 +107,15 @@ public abstract class AbstractBot {
                 break;
             case RELOAD_CMD:
                 try {
-                    AbstractMod.updateConfiguration();
-                    toTelegram(chatId, AbstractMod.config.i18n.reloadConfigOk, true);
+                    updateConfiguration();
+                    toTelegram(chatId, config.i18n.reloadConfigOk, true);
                 } catch (IOException e) {
                     logger.error("Error reloading config", e);
-                    toTelegram(chatId, Utils.template(AbstractMod.config.i18n.reloadConfigError, "${error}", e.getMessage()), false);
+                    toTelegram(chatId, template(config.i18n.reloadConfigError, "${error}", e.getMessage()), false);
                 }
                 break;
             default:
-                toTelegram(chatId, Utils.template(AbstractMod.config.i18n.commandNotFound, "${command}", command),
+                toTelegram(chatId, template(config.i18n.commandNotFound, "${command}", command),
                     false);
         }
     }
@@ -121,14 +128,14 @@ public abstract class AbstractBot {
     protected abstract String getMaxPlayers();
 
     public void toTelegram(Object chatId, String message, boolean disableNotification) {
-        postToTelegram(new SendMessage(chatId, Utils.strip(message))
+        postToTelegram(new SendMessage(chatId, strip(message))
             .disableNotification(disableNotification).parseMode(ParseMode.Markdown));
 
     }
 
     public void broadcast(String message, boolean disableNotification) {
-        if (AbstractMod.config.chatIds != null) {
-            for (String id : AbstractMod.config.chatIds) {
+        if (config.chatIds != null) {
+            for (String id : config.chatIds) {
                 toTelegram(id, message, disableNotification);
             }
         }
@@ -142,23 +149,22 @@ public abstract class AbstractBot {
 
         Integer messageId = callback.message().messageId();
         if (response.hasCancel()) {
-            answerCallback(callback, AbstractMod.config.i18n.cancelButton);
+            answerCallback(callback, config.i18n.cancelButton);
             postToTelegram(new DeleteMessage(chatId, messageId));
         } else {
             if (response.hasPlayer()) {
                 if (response.hasAction()) {
-                    answerCallback(callback, Utils
-                        .template(AbstractMod.config.i18n.telegramCallback, Utils.toArray(Utils.PLAYER, "${action}"),
-                            Utils.toArray(response.getPlayer(), response.getAction())));
+                    answerCallback(callback, template(config.i18n.telegramCallback, toArray(PLAYER, "${action}"),
+                            toArray(response.getPlayer(), response.getAction())));
                     executeMinecraftAction(chatId, response.getPlayer(),
-                        AbstractMod.config.actions.get(response.getAction()), messageId);
+                        config.actions.get(response.getAction()), messageId);
                 } else {
                     if (getPlayernames().contains(response.getPlayer())) {
                         answerCallback(callback, response.getPlayer());
                         postToTelegram(Messages.getActions(chatId, response.getPlayer(), messageId));
                     } else {
                         postToTelegram(new EditMessageText(chatId, messageId,
-                            Utils.template(AbstractMod.config.i18n.playerOffline, Utils.PLAYER, response.getPlayer()))
+                            template(config.i18n.playerOffline, PLAYER, escapeMarkdown(response.getPlayer())))
                             .parseMode(ParseMode.Markdown));
                     }
                 }
@@ -176,16 +182,24 @@ public abstract class AbstractBot {
         List<String> onlinePlayerNames = getPlayernames();
         if (!onlinePlayerNames.isEmpty() && onlinePlayerNames.contains(username)) {
             for (String s : StringUtils.split(command, SEPARATOR_CHAR)) {
-                executeMinecraftCommand(Utils.template(s, Utils.PLAYER, username), chatId);
+                executeMinecraftCommand(template(s, PLAYER, username), chatId);
             }
         } else {
             postToTelegram(new EditMessageText(chatId, messageId,
-                Utils.template(AbstractMod.config.i18n.playerOffline, Utils.PLAYER, username))
+                template(config.i18n.playerOffline, PLAYER, escapeMarkdown(username)))
                 .parseMode(ParseMode.Markdown));
         }
     }
 
     protected abstract List<String> getPlayernames();
+
+    protected void broadcastCommandResponde(Object chatId, String logContents) {
+        if (config.broadcast.commandResponde) {
+            toTelegram(chatId, String.format("`%s`",
+                escapeMarkdown(StringUtils.removeEnd(logContents, "\n"))),
+                config.disableNotification.commandResponde);
+        }
+    }
 
     private <T extends BaseRequest<T, R>, R extends BaseResponse> void postToTelegram(T request) {
         telegramBot.execute(request, new Callback<T, R>() {

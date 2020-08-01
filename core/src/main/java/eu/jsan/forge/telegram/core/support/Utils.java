@@ -24,6 +24,8 @@ public class Utils {
 
     private static final int MAX_BUTTON_COLUMNS = 8;
 
+    private static final Pattern PATTERN = Pattern.compile("(([_*~`|]){2})", Pattern.DOTALL);
+
     static {
         for (TextFormatting code : TextFormatting.values()) {
             FORMAT_CHARACTERS[code.ordinal()] = code.toString().charAt(1);
@@ -80,6 +82,10 @@ public class Utils {
 
         }
         return new InlineKeyboardMarkup(result);
+    }
+
+    public static String escapeMarkdown(String text) {
+        return text == null ? null : PATTERN.matcher(text).replaceAll("\\$1");
     }
 
     public static String humanReadableByteCountBin(long bytes) {

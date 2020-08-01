@@ -125,7 +125,7 @@ public class TelegramConfig {
 
         public String playerWhisper = "\uD83D\uDCAC *${from}* to *${to}*: ${message}";
 
-        public String playerCommand = "\u25B6 *${player}* /${command} ${parameters}";
+        public String playerCommand = "\u25B6 *${player}* ${command} ${parameters}";
 
         public String chatFromGame = "\uD83D\uDD08 *${player}*: ${message}";
 

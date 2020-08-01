@@ -2,6 +2,7 @@ package eu.jsan.forge.telegram.core.support;
 
 import static eu.jsan.forge.telegram.core.AbstractMod.bot;
 import static eu.jsan.forge.telegram.core.AbstractMod.config;
+import static eu.jsan.forge.telegram.core.support.Utils.*;
 import static eu.jsan.forge.telegram.core.support.Utils.MESSAGE;
 import static eu.jsan.forge.telegram.core.support.Utils.PLAYER;
 import static eu.jsan.forge.telegram.core.support.Utils.obfuscateCommandParams;
@@ -17,7 +18,7 @@ public abstract class AbstractEvents {
         if (config.broadcast.playerWhisper && Arrays.stream(config.skippedSenderNames)
             .noneMatch(s -> s.equals(from))) {
             bot.broadcast(template(config.i18n.playerWhisper,
-                toArray("${from}", "${to}", MESSAGE), toArray(from, to, text)),
+                toArray("${from}", "${to}", MESSAGE), toArray(escapeMarkdown(from), escapeMarkdown(to), escapeMarkdown(text))),
                 config.disableNotification.playerWhisper);
         }
     }
@@ -27,7 +28,7 @@ public abstract class AbstractEvents {
             && Arrays.stream(config.skippedCommands).noneMatch(s -> s.equals(commandName))) {
             bot.broadcast(template(config.i18n.playerCommand,
                 toArray(PLAYER, "${command}", "${parameters}"),
-                toArray(from, commandName, obfuscateCommandParams(commandName, parameters))),
+                toArray(from, String.format("`%s`",escapeMarkdown(commandName)), String.format("`%s`",escapeMarkdown(obfuscateCommandParams(commandName, parameters))))),
                 config.disableNotification.playerCommand);
         }
     }
@@ -39,14 +40,14 @@ public abstract class AbstractEvents {
                 boolean disableNotification = mention ? config.disableNotification.mentions
                     : config.disableNotification.playerMessage;
                 bot.broadcast(template(config.i18n.chatFromGame,
-                    toArray(PLAYER, MESSAGE), toArray(from, text)), disableNotification);
+                    toArray(PLAYER, MESSAGE), toArray(escapeMarkdown(from), escapeMarkdown(text))), disableNotification);
             }
         }
     }
 
     protected void broadcastDeath(String playername, String text, boolean pvp) {
         final String message = template(config.i18n.playerDeath,
-            MESSAGE, text.replaceFirst(playername, String.format("*%s*", playername)));
+            MESSAGE, escapeMarkdown(text).replaceFirst(playername, String.format("*%s*", playername)));
         if (pvp) {
             if (config.broadcast.playerDeathPvp) {
                 bot.broadcast(message, config.disableNotification.playerDeathPvp);
@@ -58,14 +59,14 @@ public abstract class AbstractEvents {
 
     protected void broadcastLogin(String playername) {
         if (config.broadcast.playerLogged) {
-            bot.broadcast(template(config.i18n.playerLogged, PLAYER, playername),
+            bot.broadcast(template(config.i18n.playerLogged, PLAYER, escapeMarkdown(playername)),
                 config.disableNotification.playerLogged);
         }
     }
 
     protected void broadcastLogout(String playername) {
         if (config.broadcast.playerLoggedOut) {
-            bot.broadcast(template(config.i18n.playerLoggedOut, PLAYER, playername),
+            bot.broadcast(template(config.i18n.playerLoggedOut, PLAYER, escapeMarkdown(playername)),
                 config.disableNotification.playerLoggedOut);
         }
     }
@@ -73,7 +74,7 @@ public abstract class AbstractEvents {
     protected void broadcastDimension(String playername, String dimension) {
         if (config.broadcast.playerChangedDimension) {
             bot.broadcast(template(config.i18n.playerChangedDimension,
-                toArray(PLAYER, "${dimension}"), toArray(playername, dimension)),
+                toArray(PLAYER, "${dimension}"), toArray(escapeMarkdown(playername), escapeMarkdown(dimension))),
                 config.disableNotification.playerChangedDimension);
         }
     }
@@ -82,7 +83,7 @@ public abstract class AbstractEvents {
         if (config.broadcast.playerAdvancement && StringUtils.isNotBlank(advancement) && !advancement
             .contains("recipes")) {
             bot.broadcast(template(config.i18n.playerAdvancement,
-                toArray(PLAYER, "${advancement}"), toArray(playername, advancement)),
+                toArray(PLAYER, "${advancement}"), toArray(escapeMarkdown(playername), escapeMarkdown(advancement))),
                 config.disableNotification.playerAdvancement);
         }
     }

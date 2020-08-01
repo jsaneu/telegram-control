@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import org.apache.logging.log4j.LogManager;
 
-@Mod(modid = ControlMod.MODID, name = ControlMod.NAME, version = "1.0.7", acceptableRemoteVersions = "*")
+@Mod(modid = ControlMod.MODID, name = ControlMod.NAME, version = "1.0.8", acceptableRemoteVersions = "*")
 public class ControlMod extends AbstractMod {
 
     @EventHandler
